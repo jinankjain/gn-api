@@ -1,0 +1,27 @@
+{
+  "name": "gn-api",
+  "main": "gn-api.html",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "google-map": "GoogleWebComponents/google-map#~1.1.7"
+  },
+  "homepage": "https://github.com/jinankjain/gn-api",
+  "_release": "63693f8a5e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "63693f8a5ee29f94dd3755e8d7b70eedd9112663"
+  },
+  "_source": "git://github.com/jinankjain/gn-api.git",
+  "_target": "master",
+  "_originalSource": "jinankjain/gn-api",
+  "_direct": true
+}

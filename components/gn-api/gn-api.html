@@ -1,0 +1,142 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+//TODO: Description
+
+@demo demo/index.html
+-->
+<dom-module id="gn-api">
+  <template>
+    
+    <iron-ajax
+      auto
+      url="http://localhost:6833/greennav/vehicles"
+      handle-as="json"
+      last-response="{{ vehicles }}"></iron-ajax>
+      
+    <iron-ajax
+      auto
+      id="route"
+      handle-as="json"
+      last-response="{{ route }}"></iron-ajax>
+      
+    <iron-ajax
+      auto
+      id="range"
+      handle-as="json"
+      last-response="{{ range }}"></iron-ajax>
+      
+  </template>
+
+  <script>
+  
+  Polymer({
+    is: 'gn-api',
+    
+    properties: {
+
+      // Server URL
+      url: {
+        type: String,
+        value: "http://localhost:6833/greennav/"
+      },
+      
+      /**
+       * List of available vehicles obtained from the backend
+       */
+      vehicles: { 
+        type: Array, 
+        notify: true 
+      },
+      
+      /**
+       * Set the vehicle to route with. Needed for route and range
+       * calculation.
+       * 
+       * Possible values are listed in the vehicles variable
+       */
+      vehicle: String,
+      
+      /**
+       * Route/range start as OSM-ID
+       */
+      startOsmId: Number,
+      
+      /**
+       * Route target as OSM-ID
+       */
+      targetOsmId: Number,
+      
+      /**
+       * Battery load percentage.
+       * Can be any value from 100 to 0
+       */
+      battery: Number,
+      
+      /**
+       * Result of the routing. Needs vehicle, startOsmId,
+       * targetOsmId and battery to be defined. It's not 
+       * calculated automatically, call getRoute() first!
+       */
+      route: {
+        type: Object,
+        notify: true
+      },
+      
+      /**
+       * Result of the range. Needs vehicle, startOsmId
+       * and battery to be defined. It's not 
+       * calculated automatically, call getRange() first!
+       */
+      range: {
+        type: Object,
+        notify: true
+      }
+    },
+    
+    /**
+     * Get the vehicles list
+     */
+    getVehicleList : function() {
+      vehicleList = ["Fiat Fiorino", 
+                     "Smart Roadster", 
+                     "Sam", 
+                     "Citysax", 
+                     "MUTE", 
+                     "Spyder-S", 
+                     "Think", 
+                     "Luis", 
+                     "STROMOS", 
+                     "Karabag Fiat 500E", 
+                     "Lupower Fiat 500E"];
+      return vehicleList;
+    },
+
+    /**
+     * Sets the route variable
+     */
+    getRoute : function() {
+      var ajax = document.querySelector('#route');
+      ajax.url = this.url +
+        "vehicles/"   + this.vehicle +
+        "/routes/"    + this.startOsmId +
+        "-"           + this.targetOsmId +
+        "/opt/energy" +
+        "?battery="   + this.battery +
+        "&algorithm=EnergyAStar";
+    },
+    
+    /**
+     * Sets the range variable
+     */
+    getRange : function() {
+      var ajax = document.querySelector('#range');
+      ajax.url = this.url +
+        "vehicles/"   + this.vehicle +
+        "/ranges/"    + this.startOsmId +
+        "?battery="   + this.battery;
+    }
+  });
+  </script>
+</dom-module>
